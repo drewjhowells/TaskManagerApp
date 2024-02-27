@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalFoundationApi::class)
-
 package com.example.taskmanager
 
 import android.os.Bundle
@@ -43,8 +42,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//object Cities: IntIdTable() {
-//    val name = varchar("name", 50)
-//}
-

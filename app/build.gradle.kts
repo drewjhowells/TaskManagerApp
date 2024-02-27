@@ -48,6 +48,7 @@ android {
         }
     }
 }
+
 val exposedVersion: String by project
 dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
