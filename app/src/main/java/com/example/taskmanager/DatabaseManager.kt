@@ -18,17 +18,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 
 @Composable
-fun TaskEntry() {
+fun DatabaseManager() {
+
+	var dbList : List<String> = TaskListTable.selectAll().map { row ->
+			row[TaskListTable.name]
+	}
+	var taskList by remember {
+		mutableStateOf(dbList)
+	}
 	var taskName by remember {
 		mutableStateOf("")
-	}
-	var tasks by remember {
-		mutableStateOf(listOf<String>())
 	}
 	Column(
 		modifier = Modifier
@@ -52,14 +64,22 @@ fun TaskEntry() {
 
 			Button(onClick = {
 				if (taskName.isNotBlank()) {
-					tasks = tasks + taskName
+					TaskListTable.insert {
+						it[name] = taskName
+						it[isCompleted] = false
+					}
 					taskName = ""
 				}
 			}) {
 				Text(text = "Add Task")
 			}
 		}
-		TaskList(tasks = tasks)
+		TaskList(tasks = dbList)
 	}
+}
+
+object TaskListTable : IntIdTable() {
+	val name: Column<String> = varchar("name", 50)
+	val isCompleted: Column<Boolean> = bool("isCompleted")
 }
 

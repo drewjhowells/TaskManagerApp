@@ -35,17 +35,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val database = Database.connect(url= "jdbc:mysql://localhost:3306/task", driver="com.mysql.cj.jdbc.Driver", user = "root", password = "Ddbk3!4!")
         setContent {
             TaskManagerTheme {
-                TaskEntry()
+                DatabaseManager()
             }
-            Database.connect("jdbc:mysql://localhost:3306/task", driver="com.mysql.cj.jdbc.Driver", user = "root", password = "Ddbk3!4!")
-            transaction {
-                val exampleTaskName = ""
-                println()
-
-            }
-
         }
     }
 }
