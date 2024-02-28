@@ -28,17 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.taskmanager.ui.theme.TaskManagerTheme
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val database = Database.connect(url= "jdbc:mysql://localhost:3306/task", driver="com.mysql.cj.jdbc.Driver", user = "root", password = "Ddbk3!4!")
         setContent {
             TaskManagerTheme {
-                DatabaseManager()
+                TaskEntry()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //Write to DB
     }
 }
