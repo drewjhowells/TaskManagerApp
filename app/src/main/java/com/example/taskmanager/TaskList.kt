@@ -17,30 +17,31 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TaskList(tasks: List<String>) {
+fun TaskList(tasks: List<Task>, taskDao: TaskDao) {
 	LazyColumn {
 		items(tasks) { task ->
-			TaskItem(task = task)
+			TaskItem(task = task, taskDao)
 			Divider()
 		}
 	}
 }
 
 @Composable
-fun TaskItem(task: String) {
-	var isChecked by remember { mutableStateOf(false) }
+fun TaskItem(task: Task, taskDao: TaskDao) {
+	var isChecked by remember { mutableStateOf(task.taskCompleted) }
 
 	Row(
 		modifier = Modifier.padding(10.dp)
 	) {
 		Text(
-			text = task,
+			text = task.taskName,
 			modifier = Modifier.weight(1f),
 			textDecoration = if (isChecked) TextDecoration.LineThrough else null
 		)
 		Button(
 			onClick = {
 				isChecked = !isChecked
+				taskDao.toggleCompleted(isChecked)
 			}
 		) {
 			Text(text = if (isChecked) "Uncheck" else "Check")

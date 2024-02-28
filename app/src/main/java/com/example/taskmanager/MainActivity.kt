@@ -27,14 +27,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.room.Room
 import com.example.taskmanager.ui.theme.TaskManagerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Build database
+        val db = Room.databaseBuilder(
+            applicationContext,
+            Database::class.java, "task"
+        ).build()
+
+        //Declare Screen Content using Composable
         setContent {
             TaskManagerTheme {
-                TaskEntry()
+                App(db)
             }
         }
     }

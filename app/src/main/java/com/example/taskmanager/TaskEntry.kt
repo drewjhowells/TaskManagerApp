@@ -21,21 +21,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun TaskEntry() {
+fun TaskEntry(tasks: List<Task>, taskDao: TaskDao) {
 	var taskName by remember {
 		mutableStateOf("")
 	}
-	var tasks by remember {
-		mutableStateOf(listOf<String>())
-	}
-	Column(
+	Row(
 		modifier = Modifier
-			.fillMaxSize()
-
-	) {
-		Row(
-			modifier = Modifier
-				.align(Alignment.End)
 				.fillMaxWidth()
 
 		) {
@@ -50,14 +41,13 @@ fun TaskEntry() {
 
 			Button(onClick = {
 				if (taskName.isNotBlank()) {
-					tasks = tasks + taskName
+					val newTask = Task(taskName)
+					taskDao.insertAll(newTask)
 					taskName = ""
 				}
 			}) {
 				Text(text = "Add Task")
 			}
 		}
-		TaskList(tasks = tasks)
 	}
-}
 
