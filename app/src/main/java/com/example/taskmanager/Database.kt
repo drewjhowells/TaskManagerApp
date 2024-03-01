@@ -22,17 +22,17 @@ abstract class Database : RoomDatabase() {
 interface TaskDao {
 	//Define SQL functions to use by DAO object
 	@Query("SELECT * FROM task")
-	fun getAll(): List<Task>
+	suspend fun getAll(): MutableList<Task>
 	@Query("SELECT * FROM task WHERE taskName = :taskName")
-	fun getTaskByName(taskName: String): Task?
+	suspend fun getTaskByName(taskName: String): Task?
 	@Insert
-	fun insertAll(vararg tasks: Task)
+	suspend fun insertAll(vararg tasks: Task)
 	@Update(entity = Task::class)
-	fun updateTask(task : Task)
+	suspend fun updateTask(task : Task)
 	@Delete
-	fun delete(task: Task)
+	suspend fun delete(task: Task)
 
-	fun toggleCompleted(taskName: String) {
+	suspend fun toggleCompleted(taskName: String) {
 		val task = getTaskByName(taskName)
 		task?.let {
 			val updatedTask = it.copy(taskCompleted = !it.taskCompleted)
@@ -45,5 +45,5 @@ interface TaskDao {
 @Entity
 data class Task(
 	@PrimaryKey val taskName: String,
-	@ColumnInfo(name = "task_completed") val taskCompleted: Boolean = false
+	@ColumnInfo(name = "task_completed") var taskCompleted: Boolean = false
 )

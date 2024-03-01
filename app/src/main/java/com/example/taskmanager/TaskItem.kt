@@ -2,10 +2,12 @@ package com.example.taskmanager
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,21 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.runBlocking
 
 @Composable
-fun TaskList(tasks: List<Task>, taskDao: TaskDao) {
-	LazyColumn {
-		items(tasks) { task ->
-			TaskItem(task = task, taskDao)
-			Divider()
-		}
+fun TaskItem(task: Task, db : Database) {
+	var isChecked by remember {
+		mutableStateOf(task.taskCompleted)
 	}
-}
-
-@Composable
-fun TaskItem(task: Task, taskDao: TaskDao) {
-	var isChecked by remember { mutableStateOf(task.taskCompleted) }
-
+	var taskDao = db.taskDao()
 	Row(
 		modifier = Modifier.padding(10.dp)
 	) {
@@ -41,10 +36,18 @@ fun TaskItem(task: Task, taskDao: TaskDao) {
 		Button(
 			onClick = {
 				isChecked = !isChecked
-				taskDao.toggleCompleted(task.taskName)
+				task.taskCompleted = !task.taskCompleted
+				runBlocking {
+					taskDao.updateTask(task)
+				}
 			}
 		) {
-			Text(text = if (isChecked) "Uncheck" else "Check")
+			if (isChecked) {
+				Icon(Icons.Default.Refresh, contentDescription = null)
+			}
+			else {
+				Icon(Icons.Default.Check, contentDescription = null)
+			}
 		}
 	}
 }

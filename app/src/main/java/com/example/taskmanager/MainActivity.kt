@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
 import com.example.taskmanager.ui.theme.TaskManagerTheme
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
         //Build database
         val db = Room.databaseBuilder(
             applicationContext,
-            Database::class.java, "task"
+            Database::class.java, "db"
         ).build()
 
         //Declare Screen Content using Composable
@@ -47,8 +48,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //Persist data using DB
+    override fun onPause() {
+        super.onPause()
+        //Persist the data into the DB
+
     }
 }
