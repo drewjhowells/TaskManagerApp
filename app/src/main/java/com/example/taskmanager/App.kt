@@ -27,6 +27,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.runBlocking
 
@@ -70,10 +74,29 @@ fun App(db : Database) {
 						.fillMaxWidth()
 				) {
 					TextField(
+						placeholder = {
+							Text("Enter task...")
+						},
 						value = taskName,
 						onValueChange = { text ->
-							taskName = text },
+							taskName = text
+						},
 						modifier = Modifier.weight(1f)
+							.onKeyEvent { event ->
+								when (event.key) {
+									Key.Enter -> {
+										if (taskName.isNotBlank()) {
+											tasks = tasks + Task(taskName)
+											runBlocking {
+												taskDao.insertAll(Task(taskName))
+											}
+											taskName = ""
+										}
+										true
+									}
+									else -> false
+								}
+							}
 					)
 					Spacer(modifier = Modifier.width(10.dp))
 					Button(onClick = {
