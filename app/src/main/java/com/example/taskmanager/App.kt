@@ -16,8 +16,9 @@ import androidx.compose.ui.Modifier
 fun App(db : Database) {
 	//Instance of DAO object
 	val taskDao = db.taskDao()
+	val result = taskDao.getAll()
 	var tasks by remember {
-		mutableStateOf(taskDao.getAll())
+		mutableStateOf(result)
 	}
 	Scaffold {paddingValue ->
 		Surface(

@@ -49,6 +49,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //Write to DB
+        //Persist data using DB
     }
 }
