@@ -41,7 +41,7 @@ fun TaskItem(task: Task, taskDao: TaskDao) {
 		Button(
 			onClick = {
 				isChecked = !isChecked
-				taskDao.toggleCompleted(isChecked)
+				taskDao.toggleCompleted(task.taskName)
 			}
 		) {
 			Text(text = if (isChecked) "Uncheck" else "Check")
