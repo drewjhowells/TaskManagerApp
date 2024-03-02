@@ -47,10 +47,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        //Persist the data into the DB
-
-    }
 }
