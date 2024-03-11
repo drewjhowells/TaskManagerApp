@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.key
@@ -98,8 +99,9 @@ fun App(db : Database) {
 								}
 							}
 					)
-					Spacer(modifier = Modifier.width(10.dp))
-					Button(onClick = {
+					Spacer(modifier = Modifier.width(10.dp)					)
+					Button(
+						onClick = {
 						if (taskName.isNotBlank()) {
 							tasks = tasks + Task(taskName)
 							runBlocking {
