@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Update
+import java.util.Date
 
 //Database class using Task entities
 @Database(entities = [Task::class], version = 1)
@@ -45,5 +46,5 @@ interface TaskDao {
 @Entity
 data class Task(
 	@PrimaryKey val taskName: String,
-	@ColumnInfo(name = "task_completed") var taskCompleted: Boolean = false
+	@ColumnInfo(name = "task_completed") var taskCompleted: Boolean = false,
 )
