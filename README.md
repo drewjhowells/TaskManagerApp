@@ -17,7 +17,6 @@ My purpose in creating this app was to learn about native Android development an
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [Android Developers](developer.android.com)
 * [Philipp Lackner Youtube Channel](https://www.youtube.com/@PhilippLackner)
 * [ChatGPT](chat.openai.com)
